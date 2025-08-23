@@ -819,80 +819,80 @@ footer {
             });
             
             // Form submission with email functionality
-            const contactForm = document.getElementById('contactForm');
-            const formMessage = document.getElementById('formMessage');
+const contactForm = document.getElementById('contactForm');
+const formMessage = document.getElementById('formMessage');
+
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const number = document.getElementById('number').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+    
+    // Using EmailJS to send the email
+    emailjs.init("6SXFvxC9yntvDF-Ra");
+    
+    // Updated template parameters to match your EmailJS template variables
+    const templateParams = {
+        name: name,        // Changed from from_name to name
+        email: email,      // Added email parameter
+        phone: number,     // Changed from from_number to phone
+        subject: subject,
+        message: message,
+        time: new Date().toLocaleString()  // Added time parameter for your template
+    };
+    
+    emailjs.send('service_j7j2dkv', 'template_tjizwyb', templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            formMessage.style.display = 'block';
+            formMessage.className = 'alert alert-success mt-3';
+            formMessage.textContent = 'Your message has been sent successfully!';
+            contactForm.reset();
             
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const number = document.getElementById('number').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-                
-                // Using EmailJS to send the email
-                emailjs.init("6SXFvxC9yntvDF-Ra"); // You need to sign up at EmailJS and replace with your public key
-                
-                const templateParams = {
-                    from_name: name,
-                    from_email: email,
-                    from_number: number,
-                    subject: subject,
-                    message: message,
-                    to_email: "ouikey41@gmail.com"
-                };
-                
-                emailjs.send('service_j7j2dkv', 'template_tjizwyb', templateParams)
-                    .then(function(response) {
-                        console.log('SUCCESS!', response.status, response.text);
-                        formMessage.style.display = 'block';
-                        formMessage.className = 'alert alert-success mt-3';
-                        formMessage.textContent = 'Your message has been sent successfully!';
-                        contactForm.reset();
-                        
-                        // Hide message after 5 seconds
-                        setTimeout(function() {
-                            formMessage.style.display = 'none';
-                        }, 5000);
-                    }, function(error) {
-                        console.log('FAILED...', error);
-                        formMessage.style.display = 'block';
-                        formMessage.className = 'alert alert-danger mt-3';
-                        formMessage.textContent = 'Sorry, there was an error sending your message. Please try again later.';
-                        
-                        // Hide message after 5 seconds
-                        setTimeout(function() {
-                            formMessage.style.display = 'none';
-                        }, 5000);
-                    });
-            });
+            // Hide message after 5 seconds
+            setTimeout(function() {
+                formMessage.style.display = 'none';
+            }, 5000);
+        }, function(error) {
+            console.log('FAILED...', error);
+            formMessage.style.display = 'block';
+            formMessage.className = 'alert alert-danger mt-3';
+            formMessage.textContent = 'Sorry, there was an error sending your message. Please try again later.';
             
-            // Animate progress bars when they come into view
-            const progressBars = document.querySelectorAll('.progress-bar');
-            
-            const progressBarOptions = {
-                threshold: 0.5
-            };
-            
-            const progressBarObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const width = entry.target.style.width;
-                        entry.target.style.width = '0';
-                        setTimeout(function() {
-                            entry.target.style.width = width;
-                        }, 300);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, progressBarOptions);
-            
-            progressBars.forEach(bar => {
-                progressBarObserver.observe(bar);
-            });
+            // Hide message after 5 seconds
+            setTimeout(function() {
+                formMessage.style.display = 'none';
+            }, 5000);
         });
+});
+
+// Animate progress bars when they come into view
+const progressBars = document.querySelectorAll('.progress-bar');
+
+const progressBarOptions = {
+    threshold: 0.5
+};
+
+const progressBarObserver = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const width = entry.target.getAttribute('aria-valuenow') + '%';
+            entry.target.style.width = '0';
+            setTimeout(function() {
+                entry.target.style.width = width;
+            }, 300);
+            observer.unobserve(entry.target);
+        }
+    });
+}, progressBarOptions);
+
+progressBars.forEach(bar => {
+    progressBarObserver.observe(bar);
+});
     </script>
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
