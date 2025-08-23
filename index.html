@@ -870,29 +870,30 @@ contactForm.addEventListener('submit', function(e) {
         });
 });
 
-// Animate progress bars when they come into view
-const progressBars = document.querySelectorAll('.progress-bar');
-
-const progressBarOptions = {
-    threshold: 0.5
-};
-
-const progressBarObserver = new IntersectionObserver(function(entries, observer) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const width = entry.target.getAttribute('aria-valuenow') + '%';
-            entry.target.style.width = '0';
-            setTimeout(function() {
-                entry.target.style.width = width;
-            }, 300);
-            observer.unobserve(entry.target);
-        }
-    });
-}, progressBarOptions);
-
-progressBars.forEach(bar => {
-    progressBarObserver.observe(bar);
-});
+    // Animate progress bars when they come into view
+            const progressBars = document.querySelectorAll('.progress-bar');
+            
+            const progressBarOptions = {
+                threshold: 0.5
+            };
+            
+            const progressBarObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.style.width;
+                        entry.target.style.width = '0';
+                        setTimeout(function() {
+                            entry.target.style.width = width;
+                        }, 300);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, progressBarOptions);
+            
+            progressBars.forEach(bar => {
+                progressBarObserver.observe(bar);
+            });
+        });
     </script>
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
