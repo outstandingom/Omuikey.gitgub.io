@@ -744,6 +744,10 @@ footer {
                                         <label for="email" class="form-label">Email *</label>
                                         <input type="email" class="form-control" id="email" required>
                                     </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="number" class="form-label">Contact  Number*</label>
+                                        <input type="number" class="form-control" id="number" required>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="subject" class="form-label">Subject *</label>
@@ -824,6 +828,7 @@ footer {
                 // Get form values
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
+                const number = document.getElementById('number').value;
                 const subject = document.getElementById('subject').value;
                 const message = document.getElementById('message').value;
                 
@@ -833,6 +838,7 @@ footer {
                 const templateParams = {
                     from_name: name,
                     from_email: email,
+                    from_number: number,
                     subject: subject,
                     message: message,
                     to_email: "omuikey157@gmail.com"
