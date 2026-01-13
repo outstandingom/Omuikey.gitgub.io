@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enlightens - Premium Rooftop Dining</title>
+    <style>
+        /* --- CSS Styles --- */
+
+        :root {
+            --gold: #e2c275;
+            --teal: #4fd9c5;
+            --leaf-green: #a8dba8;
+            --bg-dark: #0a0a0a;
+            --bg-night: #141e30;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-dark);
+            /* Deep space gradient */
+            background-image: linear-gradient(to bottom, var(--bg-dark), var(--bg-night));
+            color: #fff;
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /* Container for the falling background elements so they stay behind content */
+        #sky-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through by default */
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Enabling pointer events only on the falling items themselves for interaction */
+        .floating-item {
+            pointer-events: auto;
+            cursor: crosshair;
+        }
+
+        /* --- Content Styling (Restaurant Feel) --- */
+        .content-container {
+            position: relative;
+            z-index: 10; /* Ensure content sits above the falling stars */
+            text-align: center;
+            padding: 50px 20px;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            min-height: 100vh;
+        }
+
+        h1.brand-title {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            /* Subtle glow based on the image center */
+            text-shadow: 0 0 20px rgba(226, 194, 117, 0.5);
+        }
+
+        p.tagline {
+            font-size: 1.2rem;
+            color: var(--teal);
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+        }
+
+        .menu-preview {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold);
+            padding: 30px;
+            width: 250px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .menu-card h3 { color: var(--gold); }
+
+        /* --- Animation Styles for Falling Objects --- */
+
+        /* Base styles for falling items */
+        .star, .leaf {
+            position: absolute;
+            top: -50px; /* Start just off-screen */
+            opacity: 0.8;
+            /* The falling animation */
+            animation-name: fallDown;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+
+        .star {
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255,255,255,0.6);
+        }
+
+        /* Using an SVG shape for the leaf for better visuals */
+        .leaf {
+            width: 30px;
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234fd9c5'%3E%3Cpath d='M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,8,17,8,17,8Z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        /* Alternate color for leaf */
+        .leaf.gold-leaf {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e2c275'%3E%3Cpath d='M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,8,17,8,17,8Z'/%3E%3C/svg%3E");
+        }
+
+        /* Keyframes for falling down */
+        @keyframes fallDown {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                 opacity: 1;
+            }
+            100% {
+                /* Fall to beyond bottom of screen and rotate */
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* --- The "Water Ripple" Interaction Effect --- */
+        .rippling {
+            /* Override the falling animation */
+            animation: rippleEffect 0.6s ease-out forwards !important;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                /* Expand rapidly and fade out like a ripple on water */
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sky-container"></div>
+
+    <div class="content-container">
+        <header>
+            <h1 class="brand-title">Enlightens</h1>
+            <p class="tagline">Dining Above the Stars</p>
+        </header>
+        
+        <main>
+            <p style="max-width: 600px; margin: 50px auto; line-height: 1.6;">
+                Experience premium rooftop dining where culinary art meets the tranquility of the cosmos. Reach out and touch the sky.
+            </p>
+
+            <div class="menu-preview">
+                <div class="menu-card">
+                    <h3>Starters</h3>
+                    <p>Golden Lotus Root Chips</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Mains</h3>
+                    <p>Miso Glazed Black Cod</p>
+                </div>
+                 <div class="menu-card">
+                    <h3>Cocktails</h3>
+                    <p>The Nirvana Nebula</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        /* --- JavaScript Logic --- */
+
+        const skyContainer = document.getElementById('sky-container');
+
+        // Function to create a falling element (either a star or a leaf)
+        function createFallingElement(type) {
+            const element = document.createElement('div');
+            element.classList.add('floating-item');
+            element.classList.add(type);
+
+            // Randomize properties for natural variation
+            
+            // 1. Position horizontally (0% to 95% across screen)
+            const leftPos = Math.random() * 95;
+            element.style.left = `${leftPos}%`;
+
+            // 2. Size variation
+            let sizeBase = type === 'star' ? 4 : 20; // stars are smaller, leaves bigger
+            const size = (Math.random() * sizeBase) + sizeBase; 
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+
+            // 3. Falling Speed (duration between 5s and 15s)
+            const duration = (Math.random() * 10) + 5;
+            element.style.animationDuration = `${duration}s`;
+            
+            // 4. Falling delay so they don't all start at once
+             const delay = Math.random() * 5;
+             element.style.animationDelay = `${delay}s`;
+
+            // If it's a leaf, randomly make it gold sometimes
+            if (type === 'leaf' && Math.random() > 0.5) {
+                element.classList.add('gold-leaf');
+            }
+
+            // --- The Interaction: Hover/Touch Effect ---
+            element.addEventListener('mouseover', function handleHover() {
+                // Add the ripple class which triggers the CSS expansion animation
+                element.classList.add('rippling');
+                
+                // Remove listeners so it doesn't trigger twice
+                element.removeEventListener('mouseover', handleHover);
+                
+                // Remove the element from DOM after ripple animation finishes (0.6s)
+                setTimeout(() => {
+                    element.remove();
+                }, 600);
+            });
+
+            // Add to the background container
+            skyContainer.appendChild(element);
+
+            // Clean up: Remove elements that fell off screen without being touched
+            // Wait for animation duration + delay before removing
+            setTimeout(() => {
+                if (element.parentNode) {
+                   element.remove();
+                }
+            }, (duration + delay) * 1000);
+        }
+
+        // Start the endless loop of spawning elements
+        // Spawn a star every 300ms
+        setInterval(() => createFallingElement('star'), 300);
+        // Spawn a leaf every 800ms
+        setInterval(() => createFallingElement('leaf'), 800);
+
+    </script>
+</body>
+</html>
+
